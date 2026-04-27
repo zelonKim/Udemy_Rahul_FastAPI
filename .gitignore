@@ -1,3 +1,5 @@
 venv
 .env
 .mypy_cache
+sqlite
+sqlite.db
