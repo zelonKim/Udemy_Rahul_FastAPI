@@ -1,10 +1,6 @@
+from datetime import datetime
 from enum import Enum
-from random import randint
 from pydantic import BaseModel, Field
-
-
-def random_destination():
-    return randint(1, 1000)
 
 
 class ShipmentStatus(str, Enum):
@@ -15,27 +11,20 @@ class ShipmentStatus(str, Enum):
 
 
 class ShipmentBase(BaseModel):
-    content: str = Field(max_length=30)
-    weight: float = Field(description="The unit is kilogram.", le=25, gt=0)
-    destination: int | None = Field(default_factory=random_destination)
-
+    content: str
+    weight: float = Field(le=25, gt=0)
+    destination: int
+    
+    
 
 class ShipmentRead(ShipmentBase):
     status: ShipmentStatus
-
-
-class Order(BaseModel):
-    price: int
-    title: str
-    description: str
+    estimated_delivery: datetime 
 
 
 class ShipmentCreate(ShipmentBase):
-    order: Order
-
+    pass
 
 class ShipmentUpdate(BaseModel):
-    content: str | None = Field(default=None)
-    weight: float | None = Field(default=None, le=25, gt=0)
-    destination: int | None = Field(default=None)
-    status: ShipmentStatus
+    status: ShipmentStatus | None = Field(default=None)
+    estimated_delivery: datetime | None = Field(default=None)
