@@ -1,0 +1,844 @@
+[
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "enum",
+        "description": "enum",
+        "isExtraImport": true,
+        "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "Enum",
+        "importPath": "enum",
+        "description": "enum",
+        "isExtraImport": true,
+        "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentService",
+        "importPath": "app.services.shipment",
+        "description": "app.services.shipment",
+        "isExtraImport": true,
+        "detail": "app.services.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentService",
+        "importPath": "app.services.shipment",
+        "description": "app.services.shipment",
+        "isExtraImport": true,
+        "detail": "app.services.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "typing",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "typing",
+        "description": "typing",
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Annotated",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Callable",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Callable",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Shipment",
+        "importPath": "app.database.models",
+        "description": "app.database.models",
+        "isExtraImport": true,
+        "detail": "app.database.models",
+        "documentation": {}
+    },
+    {
+        "label": "Shipment",
+        "importPath": "app.database.models",
+        "description": "app.database.models",
+        "isExtraImport": true,
+        "detail": "app.database.models",
+        "documentation": {}
+    },
+    {
+        "label": "Shipment",
+        "importPath": "app.database.models",
+        "description": "app.database.models",
+        "isExtraImport": true,
+        "detail": "app.database.models",
+        "documentation": {}
+    },
+    {
+        "label": "SessionDep",
+        "importPath": "app.database.session",
+        "description": "app.database.session",
+        "isExtraImport": true,
+        "detail": "app.database.session",
+        "documentation": {}
+    },
+    {
+        "label": "SessionDep",
+        "importPath": "app.database.session",
+        "description": "app.database.session",
+        "isExtraImport": true,
+        "detail": "app.database.session",
+        "documentation": {}
+    },
+    {
+        "label": "create_db_tables",
+        "importPath": "app.database.session",
+        "description": "app.database.session",
+        "isExtraImport": true,
+        "detail": "app.database.session",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentCreate",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentRead",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentUpdate",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentCreate",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentRead",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentStatus",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentUpdate",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentCreate",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentUpdate",
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "SQLModel",
+        "importPath": "sqlmodel",
+        "description": "sqlmodel",
+        "isExtraImport": true,
+        "detail": "sqlmodel",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "sqlmodel",
+        "description": "sqlmodel",
+        "isExtraImport": true,
+        "detail": "sqlmodel",
+        "documentation": {}
+    },
+    {
+        "label": "SQLModel",
+        "importPath": "sqlmodel",
+        "description": "sqlmodel",
+        "isExtraImport": true,
+        "detail": "sqlmodel",
+        "documentation": {}
+    },
+    {
+        "label": "create_async_engine",
+        "importPath": "sqlalchemy.ext.asyncio",
+        "description": "sqlalchemy.ext.asyncio",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.ext.asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "AsyncSession",
+        "importPath": "sqlalchemy.ext.asyncio",
+        "description": "sqlalchemy.ext.asyncio",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.ext.asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "AsyncSession",
+        "importPath": "sqlalchemy.ext.asyncio",
+        "description": "sqlalchemy.ext.asyncio",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.ext.asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "sessionmaker",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "app.config",
+        "description": "app.config",
+        "isExtraImport": true,
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentCreate",
+        "importPath": "api.schemas.shipment",
+        "description": "api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentUpdate",
+        "importPath": "api.schemas.shipment",
+        "description": "api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentStatus",
+        "importPath": "api.schemas.shipment",
+        "description": "api.schemas.shipment",
+        "isExtraImport": true,
+        "detail": "api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "print",
+        "importPath": "rich",
+        "description": "rich",
+        "isExtraImport": true,
+        "detail": "rich",
+        "documentation": {}
+    },
+    {
+        "label": "print",
+        "importPath": "rich",
+        "description": "rich",
+        "isExtraImport": true,
+        "detail": "rich",
+        "documentation": {}
+    },
+    {
+        "label": "panel",
+        "importPath": "rich",
+        "description": "rich",
+        "isExtraImport": true,
+        "detail": "rich",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "BaseSettings",
+        "importPath": "pydantic_settings",
+        "description": "pydantic_settings",
+        "isExtraImport": true,
+        "detail": "pydantic_settings",
+        "documentation": {}
+    },
+    {
+        "label": "SettingsConfigDict",
+        "importPath": "pydantic_settings",
+        "description": "pydantic_settings",
+        "isExtraImport": true,
+        "detail": "pydantic_settings",
+        "documentation": {}
+    },
+    {
+        "label": "asynccontextmanager",
+        "importPath": "contextlib",
+        "description": "contextlib",
+        "isExtraImport": true,
+        "detail": "contextlib",
+        "documentation": {}
+    },
+    {
+        "label": "contextmanager",
+        "importPath": "contextlib",
+        "description": "contextlib",
+        "isExtraImport": true,
+        "detail": "contextlib",
+        "documentation": {}
+    },
+    {
+        "label": "asynccontextmanager",
+        "importPath": "fastapi.concurrency",
+        "description": "fastapi.concurrency",
+        "isExtraImport": true,
+        "detail": "fastapi.concurrency",
+        "documentation": {}
+    },
+    {
+        "label": "get_scalar_api_reference",
+        "importPath": "scalar_fastapi",
+        "description": "scalar_fastapi",
+        "isExtraImport": true,
+        "detail": "scalar_fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "importPath": "app.raw_sql",
+        "description": "app.raw_sql",
+        "isExtraImport": true,
+        "detail": "app.raw_sql",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "importPath": "app.api.router",
+        "description": "app.api.router",
+        "isExtraImport": true,
+        "detail": "app.api.router",
+        "documentation": {}
+    },
+    {
+        "label": "sqlite3",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentStatus",
+        "kind": 6,
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "peekOfCode": "class ShipmentStatus(str, Enum):\n    placed = \"placed\"\n    in_transit = \"in_transit\"\n    out_for_delivery = \"out_for_delivery\"\n    delivered = \"delivered\"\nclass ShipmentBase(BaseModel):\n    content: str\n    weight: float = Field(le=25, gt=0)\n    destination: int\nclass ShipmentRead(ShipmentBase):",
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentBase",
+        "kind": 6,
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "peekOfCode": "class ShipmentBase(BaseModel):\n    content: str\n    weight: float = Field(le=25, gt=0)\n    destination: int\nclass ShipmentRead(ShipmentBase):\n    status: ShipmentStatus\n    estimated_delivery: datetime \nclass ShipmentCreate(ShipmentBase):\n    pass\nclass ShipmentUpdate(BaseModel):",
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentRead",
+        "kind": 6,
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "peekOfCode": "class ShipmentRead(ShipmentBase):\n    status: ShipmentStatus\n    estimated_delivery: datetime \nclass ShipmentCreate(ShipmentBase):\n    pass\nclass ShipmentUpdate(BaseModel):\n    status: ShipmentStatus | None = Field(default=None)\n    estimated_delivery: datetime | None = Field(default=None)",
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentCreate",
+        "kind": 6,
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "peekOfCode": "class ShipmentCreate(ShipmentBase):\n    pass\nclass ShipmentUpdate(BaseModel):\n    status: ShipmentStatus | None = Field(default=None)\n    estimated_delivery: datetime | None = Field(default=None)",
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentUpdate",
+        "kind": 6,
+        "importPath": "app.api.schemas.shipment",
+        "description": "app.api.schemas.shipment",
+        "peekOfCode": "class ShipmentUpdate(BaseModel):\n    status: ShipmentStatus | None = Field(default=None)\n    estimated_delivery: datetime | None = Field(default=None)",
+        "detail": "app.api.schemas.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "SessionDep",
+        "kind": 5,
+        "importPath": "app.api.dependencies",
+        "description": "app.api.dependencies",
+        "peekOfCode": "SessionDep = Annotated",
+        "detail": "app.api.dependencies",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "app.api.router",
+        "description": "app.api.router",
+        "peekOfCode": "router = APIRouter()\n@router.get(\"/shipment/{id}\", response_model=Shipment)\nasync def get_shipment(id: int, session: SessionDep, service: ShipmentService):\n    shipment = ShipmentService(session).get(id)\n    if shipment is None:\n        raise HTTPException(\n            status_code=status.HTTP_404_NOT_FOUND, detail=\"The given id doesn`t exist.\"\n        )\n    return shipment\n@router.post(\"/shipment\")",
+        "detail": "app.api.router",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentStatus",
+        "kind": 6,
+        "importPath": "app.database.models",
+        "description": "app.database.models",
+        "peekOfCode": "class ShipmentStatus(str, Enum):\n    placed = \"placed\"\n    in_transit = \"in_transit\"\n    out_for_delivery = \"out_for_delivery\"\n    delivered = \"delivered\"\nclass Shipment(SQLModel, table=True):\n    __tablename__ = \"shipment\"\n    id: int = Field(default=None, primary_key=True)\n    content: str\n    weight: float = Field(le=25)",
+        "detail": "app.database.models",
+        "documentation": {}
+    },
+    {
+        "label": "Shipment",
+        "kind": 6,
+        "importPath": "app.database.models",
+        "description": "app.database.models",
+        "peekOfCode": "class Shipment(SQLModel, table=True):\n    __tablename__ = \"shipment\"\n    id: int = Field(default=None, primary_key=True)\n    content: str\n    weight: float = Field(le=25)\n    destination: int\n    status: ShipmentStatus\n    estimated_delivery: datetime",
+        "detail": "app.database.models",
+        "documentation": {}
+    },
+    {
+        "label": "engine",
+        "kind": 5,
+        "importPath": "app.database.session",
+        "description": "app.database.session",
+        "peekOfCode": "engine = create_async_engine(url=settings.POSTGRES_URL, echo=True)\nasync def create_db_tables():\n    async with engine.begin as connection:\n        await connection.run_sync(SQLModel.metadata.create_all)\nasync def get_session():\n    async_session = sessionmaker(\n        bind=engine,\n        class_=AsyncSession,\n        expire_on_commit=False,\n    )",
+        "detail": "app.database.session",
+        "documentation": {}
+    },
+    {
+        "label": "SessionDep",
+        "kind": 5,
+        "importPath": "app.database.session",
+        "description": "app.database.session",
+        "peekOfCode": "SessionDep = Annotated[AsyncSession, Depends(get_session)]",
+        "detail": "app.database.session",
+        "documentation": {}
+    },
+    {
+        "label": "ShipmentService",
+        "kind": 6,
+        "importPath": "app.services.shipment",
+        "description": "app.services.shipment",
+        "peekOfCode": "class ShipmentService:\n    def __init__(self, session: AsyncSession):\n        self.session = session\n    async def get(self, id: int) -> Shipment | None:\n        return await self.session.get(Shipment, id)\n    async def add(self, shipment_create: ShipmentCreate) -> Shipment:\n        new_shipment = Shipment(\n            **shipment_create.model_dump(),\n            status=ShipmentStatus.placed,\n            estimated_delivery=datetime.now() + timedelta(days=3),",
+        "detail": "app.services.shipment",
+        "documentation": {}
+    },
+    {
+        "label": "DatabaseSettings",
+        "kind": 6,
+        "importPath": "app.config",
+        "description": "app.config",
+        "peekOfCode": "class DatabaseSettings(BaseSettings):\n    POSTGRES_SERVER: str\n    POSTGRES_PORT: int\n    POSTGRES_USER: str\n    POSTGRES_PASSWORD: str\n    POSTGRES_DB: str\n    model_config = SettingsConfigDict(\n        env_file=\"./.env\", env_ignore_empty=True, extra=\"ignore\"\n    )\n    @property",
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "kind": 5,
+        "importPath": "app.config",
+        "description": "app.config",
+        "peekOfCode": "settings = DatabaseSettings()",
+        "detail": "app.config",
+        "documentation": {}
+    },
+    {
+        "label": "custom_fence",
+        "kind": 2,
+        "importPath": "app.decorators",
+        "description": "app.decorators",
+        "peekOfCode": "def custom_fence(pattern: str = \"-\"):\n    def add_fence(func):\n        def wrapper(text:str):\n            print(pattern * len(text))\n            func(text)\n            print(pattern * len(text))\n        return wrapper\n    return add_fence\n@custom_fence(\"+\")\ndef log(text:str):",
+        "detail": "app.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "kind": 2,
+        "importPath": "app.decorators",
+        "description": "app.decorators",
+        "peekOfCode": "def log(text:str):\n    print(text)\nlog(\"hello there\")\n# +++++++++++\n# hello there\n# +++++++++++",
+        "detail": "app.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "read_root",
+        "kind": 2,
+        "importPath": "app.lifespan_handler_test",
+        "description": "app.lifespan_handler_test",
+        "peekOfCode": "def read_root():\n    return {\"detail\": \"Server is running\"}",
+        "detail": "app.lifespan_handler_test",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app.lifespan_handler_test",
+        "description": "app.lifespan_handler_test",
+        "peekOfCode": "app = FastAPI(lifespan=lifespan_handler)\n@app.get(\"/\")\ndef read_root():\n    return {\"detail\": \"Server is running\"}",
+        "detail": "app.lifespan_handler_test",
+        "documentation": {}
+    },
+    {
+        "label": "get_scalar_docs",
+        "kind": 2,
+        "importPath": "app.main",
+        "description": "app.main",
+        "peekOfCode": "def get_scalar_docs():\n    return get_scalar_api_reference(\n        openapi_url=app.openapi_url,\n        title=\"Scalar API\",\n    )",
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app.main",
+        "description": "app.main",
+        "peekOfCode": "app = FastAPI(lifespan=lifespan_handler)\napp.include_router(router)\n# db = Database()\n# @app.get(\"/shipment/{id}\", response_model=ShipmentRead)\n# async def get_shipment(id: int, session: SessionDep):\n#     shipment = await session.get(Shipment, id)\n#     if shipment is None:\n#         raise HTTPException(\n#             status_code=status.HTTP_404_NOT_FOUND, detail=\"The given id doesn`t exist.\"\n#         )",
+        "detail": "app.main",
+        "documentation": {}
+    },
+    {
+        "label": "Database",
+        "kind": 6,
+        "importPath": "app.raw_sql",
+        "description": "app.raw_sql",
+        "peekOfCode": "class Database:\n    def connect_to_db(self):\n        self.connection = sqlite3.connect(\"sqlite.db\", check_same_thread=False)\n        self.cursor = self.connection.cursor()\n        print(\"connected to the database\")\n    def create_table(self):\n        self.cursor.execute(\n            \"\"\"\n            CREATE TABLE IF NOT EXISTS shipment (\n                id INTEGER PRIMARY KEY,",
+        "detail": "app.raw_sql",
+        "documentation": {}
+    },
+    {
+        "label": "managed_db",
+        "kind": 2,
+        "importPath": "app.raw_sql",
+        "description": "app.raw_sql",
+        "peekOfCode": "def managed_db():\n    db = Database()\n    print(\"enter the context\")\n    db.connect_to_db()\n    db.create_table()\n    yield db\n    print(\"exit the context\")\n    db.close()\nwith managed_db() as db:\n    print(\"-result:\", db.get(12701))",
+        "detail": "app.raw_sql",
+        "documentation": {}
+    },
+    {
+        "label": "route",
+        "kind": 2,
+        "importPath": "app.routes_input",
+        "description": "app.routes_input",
+        "peekOfCode": "def route(path: str):\n    def register_route(func):\n        routes[path] = func\n        return func\n    return register_route\n@route(\"/shipment\")\ndef get_shipment():\n    return \"Shipment<1001, in transit>\"\nrequest: str = \"\"\nwhile request != \"quit\":",
+        "detail": "app.routes_input",
+        "documentation": {}
+    },
+    {
+        "label": "get_shipment",
+        "kind": 2,
+        "importPath": "app.routes_input",
+        "description": "app.routes_input",
+        "peekOfCode": "def get_shipment():\n    return \"Shipment<1001, in transit>\"\nrequest: str = \"\"\nwhile request != \"quit\":\n    request = input(\"> \")\n    if request in routes:\n        response = routes[request]()\n        print(response, end=\"\\n\\n\")\n    else:\n        print(\"Not found\")",
+        "detail": "app.routes_input",
+        "documentation": {}
+    },
+    {
+        "label": "City",
+        "kind": 6,
+        "importPath": "app.type_hint",
+        "description": "app.type_hint",
+        "peekOfCode": "class City:\n    def __init__(self, name, country):\n        self.name = name\n        self.country = country\ncity1 = City(\"New York\", \"USA\")\ncity2 = City(\"Paris\", \"France\")\ncity1_temp: tuple[City, float] = (city1, 22.5)\ncity2_temp: tuple[City, float] = (city2, 16.0)\ndef decorator(func: Callable[[Any], None]):\n    pass",
+        "detail": "app.type_hint",
+        "documentation": {}
+    },
+    {
+        "label": "root",
+        "kind": 2,
+        "importPath": "app.type_hint",
+        "description": "app.type_hint",
+        "peekOfCode": "def root(num: int | float, exp: float = 0.5) -> float:\n    return pow(num, exp)\nroot_25 = root(25)\nclass City:\n    def __init__(self, name, country):\n        self.name = name\n        self.country = country\ncity1 = City(\"New York\", \"USA\")\ncity2 = City(\"Paris\", \"France\")\ncity1_temp: tuple[City, float] = (city1, 22.5)",
+        "detail": "app.type_hint",
+        "documentation": {}
+    },
+    {
+        "label": "decorator",
+        "kind": 2,
+        "importPath": "app.type_hint",
+        "description": "app.type_hint",
+        "peekOfCode": "def decorator(func: Callable[[Any], None]):\n    pass",
+        "detail": "app.type_hint",
+        "documentation": {}
+    },
+    {
+        "label": "root_25",
+        "kind": 5,
+        "importPath": "app.type_hint",
+        "description": "app.type_hint",
+        "peekOfCode": "root_25 = root(25)\nclass City:\n    def __init__(self, name, country):\n        self.name = name\n        self.country = country\ncity1 = City(\"New York\", \"USA\")\ncity2 = City(\"Paris\", \"France\")\ncity1_temp: tuple[City, float] = (city1, 22.5)\ncity2_temp: tuple[City, float] = (city2, 16.0)\ndef decorator(func: Callable[[Any], None]):",
+        "detail": "app.type_hint",
+        "documentation": {}
+    },
+    {
+        "label": "city1",
+        "kind": 5,
+        "importPath": "app.type_hint",
+        "description": "app.type_hint",
+        "peekOfCode": "city1 = City(\"New York\", \"USA\")\ncity2 = City(\"Paris\", \"France\")\ncity1_temp: tuple[City, float] = (city1, 22.5)\ncity2_temp: tuple[City, float] = (city2, 16.0)\ndef decorator(func: Callable[[Any], None]):\n    pass",
+        "detail": "app.type_hint",
+        "documentation": {}
+    },
+    {
+        "label": "city2",
+        "kind": 5,
+        "importPath": "app.type_hint",
+        "description": "app.type_hint",
+        "peekOfCode": "city2 = City(\"Paris\", \"France\")\ncity1_temp: tuple[City, float] = (city1, 22.5)\ncity2_temp: tuple[City, float] = (city2, 16.0)\ndef decorator(func: Callable[[Any], None]):\n    pass",
+        "detail": "app.type_hint",
+        "documentation": {}
+    }
+]

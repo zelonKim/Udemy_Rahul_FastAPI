@@ -1,5 +1,5 @@
 import sqlite3
-from app.schemas import ShipmentCreate, ShipmentUpdate
+from app.api.schemas.shipment import ShipmentCreate, ShipmentUpdate
 from contextlib import contextmanager
 
 # id = 12701
