@@ -8,6 +8,7 @@ class ShipmentService:
     def __init__(self, session: AsyncSession):
         self.session = session
 
+
     async def get(self, id: int) -> Shipment | None:
         return await self.session.get(Shipment, id)
 
