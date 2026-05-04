@@ -1,8 +1,17 @@
+from pathlib import Path
 import jwt
 from datetime import datetime, timedelta, timezone
 from app.config import security_settings
 from fastapi import status, HTTPException
 from uuid import uuid4
+
+
+APP_DIR = Path(__file__).resolve().parent
+
+TEMPLATE_DIR = APP_DIR/"templates"
+
+
+
 
 def generate_access_token(
     data: dict,
@@ -17,7 +26,6 @@ def generate_access_token(
         algorithm=security_settings.JWT_ALGORITHM,
         key=security_settings.JWT_SECRET,
     )
-
 
 
 

@@ -1,9 +1,9 @@
 from datetime import datetime
 from enum import Enum
 from uuid import UUID
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 
-from app.database.models import Seller
+from app.database.models import Seller, ShipmentEvent
 
 
 class ShipmentStatus(str, Enum):
@@ -11,6 +11,7 @@ class ShipmentStatus(str, Enum):
     in_transit = "in_transit"
     out_for_delivery = "out_for_delivery"
     delivered = "delivered"
+    cancelled = "cancelled"
 
 
 class ShipmentBase(BaseModel):
@@ -21,15 +22,19 @@ class ShipmentBase(BaseModel):
 
 class ShipmentRead(ShipmentBase):
     id: UUID
-    seller: Seller
-    status: ShipmentStatus
+    timeline: list[ShipmentEvent]
     estimated_delivery: datetime
 
 
+
 class ShipmentCreate(ShipmentBase):
-    pass
+    client_contact_email: EmailStr
+    client_contact_phone: int | None = Field(default=None)
+
 
 
 class ShipmentUpdate(BaseModel):
+    location: int | None = Field(default=None)
     status: ShipmentStatus | None = Field(default=None)
+    description: str | None = Field(default=None)
     estimated_delivery: datetime | None = Field(default=None)

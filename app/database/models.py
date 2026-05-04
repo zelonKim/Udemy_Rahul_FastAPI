@@ -12,104 +12,114 @@ class ShipmentStatus(str, Enum):
     in_transit = "in_transit"
     out_for_delivery = "out_for_delivery"
     delivered = "delivered"
+    cancelled = "cancelled"
 
 
 class Shipment(SQLModel, table=True):
     __tablename__ = "shipment"
 
-    id: UUID = Field(
-        sa_column=Column(
-            postgresql.UUID,
-            default=uuid4,
-            primary_key=True,
-        )
-    )
+    id: UUID = Field(sa_column=Column(postgresql.UUID, default=uuid4, primary_key=True))
+
+    client_contact_email: EmailStr | None
+
+    client_contact_phone: int | None
+
     content: str
     weight: float = Field(le=25)
     destination: int
-    status: ShipmentStatus
     estimated_delivery: datetime
 
-    seller_id: UUID = Field(foreign_key="seller.id")
+    timeline: list["ShipmentEvent"] = Relationship(
+        back_populates="shipment",
+        sa_relationship_kwargs={"lazy": "selectin"},
+    )
 
+    seller_id: UUID = Field(foreign_key="seller.id")
     seller: "Seller" = Relationship(
         back_populates="shipments",
         sa_relationship_kwargs={"lazy": "selectin"},
     )
 
     delivery_partner_id: UUID = Field(foreign_key="delivery_partner.id")
-
     delivery_partner: "DeliveryPartner" = Relationship(
         back_populates="shipments",
+        sa_relationship_kwargs={"lazy": "selectin"},
     )
 
     created_at: datetime = Field(
-        sa_column=Column(
-            postgresql.TIMESTAMP,
-            default=datetime.now,
-        )
+        sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
     )
 
 
-########################################
 
 
-class User(SQLModel):
-    id: UUID = Field(
-        sa_column=Column(
-            postgresql.UUID,
-            default=uuid4,
-            primary_key=True,
-        )
-    )
-    name: str
-    email: EmailStr
-    password_hash: str
+class ShipmentEvent(SQLModel, table=True):
+    __tablename__ = "shipment_event"
+
+    id: UUID = Field(sa_column=Column(postgresql.UUID, default=uuid4, primary_key=True))
 
     created_at: datetime = Field(
-        sa_column=Column(
-            postgresql.TIMESTAMP,
-            default=datetime.now,
-        )
+        sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
     )
 
-########################################
+    location: int | None
+    status: ShipmentStatus | None
+    description: str | None
 
+    shipment_id: UUID = Field(foreign_key="shipment.id")
 
-class Seller(User, table=True):
-    __tablename__ = "seller"
-
-    shipments: list[Shipment] = Relationship(
-        back_populates="seller",
+    shipment: Shipment = Relationship(
+        back_populates="timeline",
         sa_relationship_kwargs={"lazy": "selectin"},
     )
 
 
 
 
-#####################################
+class User(SQLModel):
+    name: str
+    email: EmailStr
+    password_hash: str
+
+
+
+
+class Seller(User, table=True):
+    __tablename__ = "seller"
+
+    id: UUID = Field(sa_column=Column(postgresql.UUID, default=uuid4, primary_key=True))
+
+    address: str
+    zip_code: int
+
+    shipments: list[Shipment] = Relationship(
+        back_populates="seller",
+        sa_relationship_kwargs={"lazy": "selectin"},
+    )
+
+    created_at: datetime = Field(
+        sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
+    )
+
+
 
 
 class DeliveryPartner(User, table=True):
     __tablename__ = "delivery_partner"
 
- 
-    serviceable_zip_codes: list[int] = Field(sa_column=Column(ARRAY(INTEGER)))
+    id: UUID = Field(sa_column=Column(postgresql.UUID, default=uuid4, primary_key=True))
 
+    serviceable_zip_codes: list[int] = Field(sa_column=Column(ARRAY(INTEGER)))
     max_handling_capacity: int
 
     shipments: list[Shipment] = Relationship(
-        back_populates="delivery_partner", sa_relationship_kwargs={"lazy": "selectin"}
+        back_populates="delivery_partner",
+        sa_relationship_kwargs={"lazy": "selectin"},
     )
 
-    @property
-    def active_shipments(self):
-        return [
-            shipment
-            for shipment in self.shipments
-            if shipment.status != ShipmentStatus.delivered
-        ]
+    created_at: datetime = Field(
+        sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
+    )
 
-    @property
-    def current_handling_capacity(self):
-        return self.max_handling_capacity - len(self.active_shipments)
+    # ❌ 삭제: active_shipments
+    # ❌ 삭제: current_handling_capacity

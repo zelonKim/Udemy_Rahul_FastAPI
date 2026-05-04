@@ -3,3 +3,7 @@ venv
 .mypy_cache
 sqlite
 sqlite.db
+migrations
+.vscode
+dump.rdb
+alembic.ini
