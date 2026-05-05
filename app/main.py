@@ -1,9 +1,17 @@
-from fastapi import BackgroundTasks, FastAPI
+from datetime import datetime
+from fastapi import BackgroundTasks, FastAPI, Response
 from fastapi.concurrency import asynccontextmanager
+from fastapi.responses import (
+    FileResponse,
+    HTMLResponse,
+    JSONResponse,
+    PlainTextResponse,
+    RedirectResponse,
+)
 from scalar_fastapi import get_scalar_api_reference
 from app.database.session import create_db_tables
 from app.api.router import main_router
-
+from app.utils import APP_DIR
 
 
 @asynccontextmanager
@@ -19,7 +27,65 @@ app.include_router(main_router)
 
 
 
-###################################
+class UpperResponse(Response):
+    def __init__(
+        self,
+        content=None,
+        status_code=200,
+        headers=None,
+        media_type=None,
+        background=None,
+    ):
+        super().__init__(content, status_code, headers, media_type, background)
+
+    def render(self, content):
+        content = content.upper()
+        return super().render(content)
+
+
+
+
+@app.get(
+    "/custom",
+    # response_model=dict[str, datetime],
+    # response_class=JSONResponse,
+    # response_class=HTMLResponse,
+    # response_class=FileResponse,
+    # response_class=RedirectResponse,
+    response_class=UpperResponse,
+)
+def get_custom_response():
+    # return {
+    #     "timestamp": datetime.now(),
+    # }
+
+    # return HTMLResponse(
+    #     content=f"""<body>
+    #         <h1>Shipment</h1>
+    #         <h2>{datetime.now()}</h2>
+    #     </body>"""
+    # )
+
+    # return FileResponse(APP_DIR / "file.txt")
+
+    # return RedirectResponse(url="http://localhost:8000/custom-new")
+
+    return "sample shipment"
+
+
+
+
+@app.get("/custom-new")
+def get_new_data():
+    return "NEW CUSTOM RESPONSE"
+
+
+
+
+
+###################################################
+
+
 
 
 # db = Database()

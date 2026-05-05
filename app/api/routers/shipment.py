@@ -1,8 +1,11 @@
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, status
-from app.database.models import Shipment
+from fastapi import APIRouter, HTTPException, Request, status
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from app.database.models import Shipment, ShipmentStatus
 from app.api.schemas.shipment import ShipmentCreate, ShipmentRead, ShipmentUpdate
+from app.utils import TEMPLATE_DIR
 from ..schemas.dependencies import (
     CurrentPartnerDep,
     CurrentSellerDep,
@@ -11,6 +14,9 @@ from ..schemas.dependencies import (
 
 
 router = APIRouter(prefix="/shipment", tags=["Shipment"])
+
+
+templates = Jinja2Templates(TEMPLATE_DIR)
 
 
 @router.get("/{id}", response_model=ShipmentRead)
@@ -25,6 +31,25 @@ async def get_shipment(
             status_code=status.HTTP_404_NOT_FOUND, detail="The given id doesn`t exist."
         )
     return shipment
+
+
+
+@router.get("/track/{id}")
+async def get_tracking(request: Request, id: UUID, service: ShipmentServiceDep):
+    shipment = await service.get(id)
+
+    context = shipment.model_dump()
+    context["status"] = ShipmentStatus.placed
+    context["partner"] = shipment.delivery_partner.name
+    context["timeline"] = shipment.timeline
+    context["timeline"].reverse()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="track.html",
+        context=context,
+    )
+
 
 
 @router.post("/", response_model=ShipmentRead)

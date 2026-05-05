@@ -6,6 +6,7 @@ from app.database.redis import add_jti_to_blacklist
 from ..schemas.dependencies import (
     CurrentPartnerDep,
     PartnerServiceDep,
+    SellerServiceDep,
     get_partner_access_token,
 )
 from ..schemas.delivery_partner import (
@@ -18,12 +19,23 @@ from ..schemas.delivery_partner import (
 router = APIRouter(prefix="/partner", tags=["Delivery Partner"])
 
 
+
+@router.get("/verify")
+async def verify_partner_email(token: str, service: SellerServiceDep):
+    await service.verify_email(token)
+    return {"detail": "Account is verified"}
+
+
+
+
 @router.post("/signup", response_model=DeliveryPartnerRead)
 async def register_delivery_partner(
     delivery_partner: DeliveryPartnerCreate,
     service: PartnerServiceDep,
 ):
     return await service.add(delivery_partner)
+
+
 
 
 
@@ -51,6 +63,8 @@ async def update_delivery_partner(
         )
 
     return await service.update(partner.sqlmodel_update(update_data))
+
+
 
 
 @router.get("/logout")

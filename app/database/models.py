@@ -52,7 +52,6 @@ class Shipment(SQLModel, table=True):
 
 
 
-
 class ShipmentEvent(SQLModel, table=True):
     __tablename__ = "shipment_event"
 
@@ -74,11 +73,10 @@ class ShipmentEvent(SQLModel, table=True):
     )
 
 
-
-
 class User(SQLModel):
     name: str
     email: EmailStr
+    email_verified: bool = Field(default=False)
     password_hash: str
 
 
@@ -89,8 +87,8 @@ class Seller(User, table=True):
 
     id: UUID = Field(sa_column=Column(postgresql.UUID, default=uuid4, primary_key=True))
 
-    address: str
-    zip_code: int
+    address: str | None = Field(default=None)
+    zip_code: int | None = Field(default=None)
 
     shipments: list[Shipment] = Relationship(
         back_populates="seller",
@@ -120,6 +118,3 @@ class DeliveryPartner(User, table=True):
     created_at: datetime = Field(
         sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
     )
-
-    # ❌ 삭제: active_shipments
-    # ❌ 삭제: current_handling_capacity
