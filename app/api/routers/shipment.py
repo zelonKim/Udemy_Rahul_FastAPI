@@ -1,16 +1,23 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, Form, HTTPException, Request, status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.database.models import Shipment, ShipmentStatus
-from app.api.schemas.shipment import ShipmentCreate, ShipmentRead, ShipmentUpdate
+from app.api.schemas.shipment import (
+    ShipmentCreate,
+    ShipmentRead,
+    ShipmentReview,
+    ShipmentUpdate,
+)
 from app.utils import TEMPLATE_DIR
 from ..schemas.dependencies import (
     CurrentPartnerDep,
     CurrentSellerDep,
     ShipmentServiceDep,
 )
+from app.config import app_settings
 
 
 router = APIRouter(prefix="/shipment", tags=["Shipment"])
@@ -19,7 +26,7 @@ router = APIRouter(prefix="/shipment", tags=["Shipment"])
 templates = Jinja2Templates(TEMPLATE_DIR)
 
 
-@router.get("/{id}", response_model=ShipmentRead)
+@router.get("/", response_model=ShipmentRead)
 async def get_shipment(
     id: UUID,
     service: ShipmentServiceDep,
@@ -33,8 +40,7 @@ async def get_shipment(
     return shipment
 
 
-
-@router.get("/track/{id}")
+@router.get("/track")
 async def get_tracking(request: Request, id: UUID, service: ShipmentServiceDep):
     shipment = await service.get(id)
 
@@ -49,7 +55,6 @@ async def get_tracking(request: Request, id: UUID, service: ShipmentServiceDep):
         name="track.html",
         context=context,
     )
-
 
 
 @router.post("/", response_model=ShipmentRead)
@@ -88,3 +93,25 @@ async def cancel_shipment(
     service: ShipmentServiceDep,
 ):
     return await service.cancel(id, seller)
+
+
+@router.get("/review")
+async def get_review(request: Request, token: str):
+    return templates.TemplateResponse(
+        request=request,
+        name="review.html",
+        context={
+            "review_url": f"http://{app_settings.APP_DOMAIN}/shipment/review?token={token}"
+        },
+    )
+
+
+@router.post("/review")
+async def submit_review(
+    token: str,
+    rating: Annotated[int, Form(ge=1, le=5)],
+    comment: Annotated[str | None, Form()],
+    service: ShipmentServiceDep,
+):
+    await service.rate(token, rating, comment)
+    return {"detail": "Review Submitted"}

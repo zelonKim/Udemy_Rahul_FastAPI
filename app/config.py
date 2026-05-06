@@ -1,19 +1,16 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-_base_config = SettingsConfigDict(
-    env_file="./.env", 
-    env_ignore_empty=True, 
-    extra="ignore"
-)
 
+
+_base_config = SettingsConfigDict(
+    env_file="./.env", env_ignore_empty=True, extra="ignore"
+)
 
 
 class AppSettings(BaseSettings):
     APP_NAME: str = "FastShip"
     APP_DOMAIN: str = "localhost:8000"
-
-
 
 
 class DatabaseSettings(BaseSettings):
@@ -22,6 +19,7 @@ class DatabaseSettings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
+    
     REDIS_HOST: str
     REDIS_PORT: int
 
@@ -31,6 +29,10 @@ class DatabaseSettings(BaseSettings):
     def POSTGRES_URL(self):
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
+    def REDIS_URL(self, db):
+        return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/{db}"
+
+
 
 
 class SecuritySettings(BaseSettings):
@@ -38,8 +40,6 @@ class SecuritySettings(BaseSettings):
     JWT_ALGORITHM: str
 
     model_config = _base_config
-
-
 
 
 class NotificationSettings(BaseSettings):
@@ -54,13 +54,14 @@ class NotificationSettings(BaseSettings):
     USE_CREDENTIALS: bool = True
     VALIDATE_CERTS: bool = True
 
+    TWILIO_SID: str
+    TWILIO_AUTH_TOKEN: str
+    TWILIO_NUMBER: str
+
     model_config = _base_config
 
 
-
-
-
-app_settings = AppSettings() 
+app_settings = AppSettings()
 
 db_settings = DatabaseSettings()  # type:ignore
 

@@ -20,14 +20,16 @@ class Shipment(SQLModel, table=True):
 
     id: UUID = Field(sa_column=Column(postgresql.UUID, default=uuid4, primary_key=True))
 
-    client_contact_email: EmailStr | None
+    client_contact_email: EmailStr
 
-    client_contact_phone: int | None
+    client_contact_phone: str | None
 
     content: str
     weight: float = Field(le=25)
     destination: int
     estimated_delivery: datetime
+
+    status: ShipmentStatus = Field(default=ShipmentStatus.placed)
 
     timeline: list["ShipmentEvent"] = Relationship(
         back_populates="shipment",
@@ -46,10 +48,11 @@ class Shipment(SQLModel, table=True):
         sa_relationship_kwargs={"lazy": "selectin"},
     )
 
+    review: "Review" = Relationship(back_populates="shipment")
+
     created_at: datetime = Field(
         sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
     )
-
 
 
 class ShipmentEvent(SQLModel, table=True):
@@ -80,8 +83,6 @@ class User(SQLModel):
     password_hash: str
 
 
-
-
 class Seller(User, table=True):
     __tablename__ = "seller"
 
@@ -100,8 +101,6 @@ class Seller(User, table=True):
     )
 
 
-
-
 class DeliveryPartner(User, table=True):
     __tablename__ = "delivery_partner"
 
@@ -117,4 +116,34 @@ class DeliveryPartner(User, table=True):
 
     created_at: datetime = Field(
         sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
+    )
+
+
+class Review(SQLModel, table=True):
+    __tablename__ = "review"
+
+    id: UUID = Field(
+        sa_column=Column(
+            postgresql.UUID,
+            default=uuid4,
+            primary_key=True,
+        )
+    )
+
+    created_at: datetime = Field(
+        sa_column=Column(
+            postgresql.TIMESTAMP,
+            default=datetime.now,
+        )
+    )
+
+    rating: int = Field(ge=1, le=5)
+
+    comment: str | None = Field(default=None)
+
+    shipment_id: UUID = Field(foreign_key="shipment.id")
+
+    shipment: Shipment = Relationship(
+        back_populates="review",
+        sa_relationship_kwargs={"lazy": "selectin"},
     )

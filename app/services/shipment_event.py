@@ -1,13 +1,23 @@
+from random import randint
+
 from sqlmodel import select
 from app.database.models import Shipment, ShipmentEvent, ShipmentStatus
+from app.database.redis import add_shipment_verification_code
 from app.services.base import BaseService
 from app.services.notification import NotificationService
+from app.config import app_settings
+from app.utils import generate_url_safe_token
+from app.worker.tasks import send_email_with_template, send_sms
 
 
 class ShipmentEventService(BaseService):
-    def __init__(self, session, tasks):
+    def __init__(
+        self,
+        session,
+        # tasks,
+    ):
         super().__init__(ShipmentEvent, session)
-        self.notification_service = NotificationService(tasks)
+        # self.notification_service = NotificationService(tasks)
 
     async def add(
         self,
@@ -17,7 +27,6 @@ class ShipmentEventService(BaseService):
         description: str | None = None,
     ) -> ShipmentEvent:
 
-        # ✅ 필요할 때만 DB 조회
         if location is None or status is None:
             last_event = await self.get_latest_event(shipment)
 
@@ -40,7 +49,6 @@ class ShipmentEventService(BaseService):
 
         return await self._add(new_event)
 
-
     async def get_latest_event(self, shipment):
         result = await self.session.execute(
             select(ShipmentEvent)
@@ -50,14 +58,13 @@ class ShipmentEventService(BaseService):
         )
         return result.scalar_one_or_none()
 
-
-
     def _generate_description(self, status: ShipmentStatus, location: int):
         match status:
             case ShipmentStatus.placed:
                 return "assigned delivery partner"
             case ShipmentStatus.out_for_delivery:
                 return "shipment out for delivery"
+
             case ShipmentStatus.delivered:
                 return "Successfully delivered"
             case ShipmentStatus.cancelled:
@@ -70,7 +77,8 @@ class ShipmentEventService(BaseService):
     async def _notify(self, shipment: Shipment, status: ShipmentStatus):
         match status:
             case ShipmentStatus.placed:
-                await self.notification_service.send_email_with_template(
+                # await self.notification_service.send_email_with_template(
+                send_email_with_template.delay(
                     recipients=[shipment.client_contact_email],
                     subject="Your Order is Shipped.",
                     context={
@@ -82,15 +90,36 @@ class ShipmentEventService(BaseService):
                 )
 
             case ShipmentStatus.out_for_delivery:
-                await self.notification_service.send_email(
-                    recipients=[shipment.client_contact_email],
-                    subject="Your Order is Shipped",
-                    body=f"Your order with {shipment.seller.name} seller is picked up by {shipment.delivery_partner.name} delivery partner",
-                )
+                code = randint(100_000, 999_999)
+                await add_shipment_verification_code(shipment.id, str(code))
+
+                if shipment.client_contact_phone:
+                    # self.notification_service.send_sms(
+                    send_sms.delay(
+                        to=shipment.client_contact_phone,
+                        body=f"Hello, {code} is Your verification code.",
+                    )
+                else:
+                    # await self.notification_service.send_email_with_template(
+                    send_email_with_template.delay(
+                        recipients=[shipment.client_contact_email],
+                        subject="Your verification code",
+                        context={
+                            "verification_code": code,
+                        },
+                        template_name="mail_out_for_delivery.html",
+                    )
 
             case ShipmentStatus.delivered:
-                await self.notification_service.send_email(
+                token = generate_url_safe_token({"id": str(shipment.id)})
+
+                # await self.notification_service.send_email_with_template(
+                send_email_with_template.delay(
                     recipients=[shipment.client_contact_email],
-                    subject="Your Order is Arriving",
-                    body="Our delivery executive is on their way to delivery your order. please ensure you are available to get the same.",
+                    subject="Your Order is Delivered",
+                    context={
+                        "seller": shipment.seller.name,
+                        "review_url": f"http://{app_settings.APP_DOMAIN}/shipment/review?token={token}",
+                    },
+                    template_name="mail_delivered.html",
                 )

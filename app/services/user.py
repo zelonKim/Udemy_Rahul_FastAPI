@@ -10,6 +10,7 @@ from app.utils import (
     generate_access_token,
     generate_url_safe_token,
 )
+from app.worker.tasks import send_email_with_template
 from .base import BaseService
 from passlib.context import CryptContext  # type:ignore
 from fastapi import BackgroundTasks, HTTPException, status
@@ -17,10 +18,15 @@ from app.config import app_settings
 
 
 class UserService(BaseService):
-    def __init__(self, model: User, session: AsyncSession, tasks: BackgroundTasks):
+    def __init__(
+        self,
+        model: User,
+        session: AsyncSession,
+        # tasks: BackgroundTasks,
+    ):
         self.model = model
         self.session = session
-        self.notification_service = NotificationService(tasks)
+        # self.notification_service = NotificationService(tasks)
         self.pw_context = CryptContext(schemes=["argon2"])
 
     def hash_password(self, password: str) -> str:
@@ -28,8 +34,6 @@ class UserService(BaseService):
 
     def verify_password(self, password: str, hashed_password: str) -> bool:
         return self.pw_context.verify(password, hashed_password)
-
-
 
     async def _add_user(self, data: dict, router_prefix: str):
         user = self.model(**data, password_hash=self.pw_context.hash(data["password"]))
@@ -42,7 +46,8 @@ class UserService(BaseService):
             }
         )
 
-        await self.notification_service.send_email_with_template(
+        # await self.notification_service.send_email_with_template(
+        send_email_with_template.delay(
             recipients=[user.email],
             subject="Verify Your Account with FastShip",
             context={
@@ -53,9 +58,8 @@ class UserService(BaseService):
         )
 
         return user
-
-
-
+    
+    
 
     async def verify_email(self, token: str):
         token_data = decode_url_safe_token(token)
@@ -72,13 +76,10 @@ class UserService(BaseService):
 
 
 
-
-
     async def _get_by_email(self, email) -> User | None:
         return await self.session.scalar(
             select(self.model).where(self.model.email == email)
         )
-
 
 
 
@@ -117,7 +118,8 @@ class UserService(BaseService):
 
         token = generate_url_safe_token({"id": str(user.id)}, salt="password-reset")
 
-        await self.notification_service.send_email_with_template(
+        # await self.notification_service.send_email_with_template(
+        send_email_with_template.delay(
             recipients=[user.email],
             subject="Account Password Reset",
             context={
@@ -126,8 +128,7 @@ class UserService(BaseService):
             },
             template_name="mail_password_reset.html",
         )
-
-
+        
 
     async def reset_password(self, token: str, password: str) -> bool:
         token_data = decode_url_safe_token(

@@ -1,12 +1,19 @@
 from uuid import UUID
 from fastapi import HTTPException, status
-from app.database.models import DeliveryPartner, Seller, Shipment
-from app.api.schemas.shipment import ShipmentCreate, ShipmentUpdate, ShipmentStatus
+from app.database.models import DeliveryPartner, Review, Seller, Shipment
+from app.api.schemas.shipment import (
+    ShipmentCreate,
+    ShipmentReview,
+    ShipmentUpdate,
+    ShipmentStatus,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import datetime, timedelta
+from app.database.redis import get_shipment_verification_code
 from app.services.base import BaseService
 from app.services.delivery_partner import DeliveryPartnerService
 from app.services.shipment_event import ShipmentEventService
+from app.utils import decode_url_safe_token
 
 
 class ShipmentService(BaseService):
@@ -27,7 +34,6 @@ class ShipmentService(BaseService):
     async def add(self, shipment_create: ShipmentCreate, seller: Seller) -> Shipment:
         new_shipment = Shipment(
             **shipment_create.model_dump(),
-            status=ShipmentStatus.placed,
             estimated_delivery=datetime.now() + timedelta(days=3),
             seller_id=seller.id,
         )
@@ -40,14 +46,13 @@ class ShipmentService(BaseService):
         event = await self.event_service.add(
             shipment=shipment,
             location=seller.zip_code,
-            status=ShipmentStatus.placed,
+            status=ShipmentStatus.out_for_delivery,
             description=f"assigned to {partner.name}",
         )
 
         shipment.timeline.append(event)
 
         return shipment
-
 
 
 
@@ -61,7 +66,19 @@ class ShipmentService(BaseService):
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
             )
 
-        update = shipment_update.model_dump(exclude_none=True)
+        if shipment_update.status == ShipmentStatus.delivered:
+            code = get_shipment_verification_code(shipment.id)
+
+            if code != shipment_update.verification_code:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Client Not Authorized",
+                )
+
+        update = shipment_update.model_dump(
+            exclude_none=True,
+            exclude={"verification_code"},
+        )
 
         if shipment_update.estimated_delivery:
             shipment.estimated_delivery = shipment_update.estimated_delivery
@@ -88,8 +105,7 @@ class ShipmentService(BaseService):
             )
 
         event = await self.event_service.add(
-            shipment_id=shipment.id, 
-            status=ShipmentStatus.cancelled
+            shipment_id=shipment.id, status=ShipmentStatus.cancelled
         )
 
         shipment.timeline.append(event)
@@ -98,7 +114,27 @@ class ShipmentService(BaseService):
 
 
 
-
-
     async def delete(self, id: UUID) -> None:
         await self._delete(self.get(id))
+
+
+
+    async def rate(self, token: str, rating: int, comment: str):
+        token_data = decode_url_safe_token(token)
+
+        if token_data is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized"
+            )
+
+        shipment = await self.get(UUID(token_data["id"]))
+
+        new_review = Review(
+            rating=rating,
+            comment=comment if comment else None,
+            shipment_id=shipment.id,
+        )
+
+        self.session.add(new_review)
+
+        await self.session.commit()

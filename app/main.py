@@ -12,6 +12,7 @@ from scalar_fastapi import get_scalar_api_reference
 from app.database.session import create_db_tables
 from app.api.router import main_router
 from app.utils import APP_DIR
+from app.worker.tasks import background_task, send_mail
 
 
 @asynccontextmanager
@@ -25,6 +26,21 @@ app = FastAPI(lifespan=lifespan_handler)
 app.include_router(main_router)
 
 
+# @app.get("/test")
+# def test():
+#     send_mail.delay(
+#         recipients=["ksz1860@naver.com"],
+#         subject="Test Mail",
+#         body="Hello"
+#     )
+#     now = datetime.now()
+#     background_task.delay(
+#         f"Background Task {now.second}",
+#         data={
+#             "min": now.minute,
+#             "sec": now.second,
+#         },
+#     )
 
 
 class UpperResponse(Response):
@@ -41,8 +57,6 @@ class UpperResponse(Response):
     def render(self, content):
         content = content.upper()
         return super().render(content)
-
-
 
 
 @app.get(
@@ -73,19 +87,12 @@ def get_custom_response():
     return "sample shipment"
 
 
-
-
 @app.get("/custom-new")
 def get_new_data():
     return "NEW CUSTOM RESPONSE"
 
 
-
-
-
 ###################################################
-
-
 
 
 # db = Database()
