@@ -85,6 +85,14 @@ def send_sms(to: str, body: str):
 
 
 
+@app.task
+def add_log(log: str) -> None:
+    with open("file.log", "a") as file:
+        file.write(f"{log}\n")
+
+
+
+
 # @app.task
 # def background_task(name: str, data: dict):
 #     sleep(5)

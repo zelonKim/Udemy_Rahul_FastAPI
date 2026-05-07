@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Form, HTTPException, Request, status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from app.database.models import Shipment, ShipmentStatus
+from app.database.models import Shipment, ShipmentStatus, TagName
 from app.api.schemas.shipment import (
     ShipmentCreate,
     ShipmentRead,
@@ -15,6 +15,7 @@ from app.utils import TEMPLATE_DIR
 from ..schemas.dependencies import (
     CurrentPartnerDep,
     CurrentSellerDep,
+    SessionDep,
     ShipmentServiceDep,
 )
 from app.config import app_settings
@@ -30,14 +31,10 @@ templates = Jinja2Templates(TEMPLATE_DIR)
 async def get_shipment(
     id: UUID,
     service: ShipmentServiceDep,
+    # seller: CurrentSellerDep,
 ):
-    shipment = await service.get(id)
-
-    if shipment is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="The given id doesn`t exist."
-        )
-    return shipment
+    # return {}
+    return await service.get(id)
 
 
 @router.get("/track")
@@ -84,6 +81,36 @@ async def update_shipment(
         )
 
     return await service.update(id, shipment_update, partner)
+
+
+
+
+
+@router.get("/tagged", response_model=list[ShipmentRead])
+async def get_shipments_with_tag(tag_name: TagName, session: SessionDep):
+    tag = await tag_name.tag(session)
+    return tag.shipments
+
+
+@router.get("/tag", response_model=ShipmentRead)
+async def add_tag_to_shipment(
+    id: UUID,
+    tag_name: TagName,
+    service: ShipmentServiceDep,
+):
+    return await service.add_tag(id, tag_name)
+
+
+@router.delete("/tag", response_model=ShipmentRead)
+async def remove_tag_from_shipment(
+    id: UUID,
+    tag_name: TagName,
+    service: ShipmentServiceDep,
+):
+    return await service.remove_tag(id, tag_name)
+
+
+
 
 
 @router.delete("/cancel")

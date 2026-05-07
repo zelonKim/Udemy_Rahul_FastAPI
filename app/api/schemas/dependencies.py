@@ -1,4 +1,5 @@
 from uuid import UUID
+from app.core.exceptions import InvalidToken
 from app.database.models import DeliveryPartner, Seller
 from app.database.redis import is_jti_blacklisted
 from app.services.delivery_partner import DeliveryPartnerService
@@ -22,9 +23,7 @@ async def _get_access_token(
     data = decode_access_token(token)
 
     if data is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Access Token."
-        )
+        raise InvalidToken()
 
     if await is_jti_blacklisted(data["jti"]):
         raise HTTPException(

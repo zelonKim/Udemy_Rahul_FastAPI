@@ -1,5 +1,6 @@
 from datetime import datetime
-from fastapi import BackgroundTasks, FastAPI, Response
+from time import perf_counter
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Request, Response, status
 from fastapi.concurrency import asynccontextmanager
 from fastapi.responses import (
     FileResponse,
@@ -9,10 +10,12 @@ from fastapi.responses import (
     RedirectResponse,
 )
 from scalar_fastapi import get_scalar_api_reference
+from app.core.exceptions import add_exception_handlers
 from app.database.session import create_db_tables
 from app.api.router import main_router
 from app.utils import APP_DIR
-from app.worker.tasks import background_task, send_mail
+from app.worker.tasks import add_log, send_mail
+from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager
@@ -24,6 +27,65 @@ async def lifespan_handler(app: FastAPI):
 app = FastAPI(lifespan=lifespan_handler)
 
 app.include_router(main_router)
+
+
+########################################
+
+
+add_exception_handlers(app)
+
+
+@app.exception_handler(status.HTTP_500_INTERNAL_SERVER_ERROR)
+def internal_server_error_handler(request, exception):
+    return JSONResponse(
+        content={"error": f"{exception}"},
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    )
+
+
+
+
+
+
+
+
+
+########################################
+
+
+
+
+
+
+
+@app.middleware("http")
+async def custom_middleware(request: Request, call_next):
+    start = perf_counter()
+
+    response: Response = await call_next(request)
+
+    end = perf_counter()
+
+    time_take = round(end - start, 2)
+
+    add_log.delay(
+        f"{request.method} {request.url} ({response.status_code}) {time_take}s"
+    )
+
+    return response
+
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5500"],
+    allow_methods=["*"],
+)
+
+
+
+
+############################################
 
 
 # @app.get("/test")

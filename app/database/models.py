@@ -1,10 +1,69 @@
 from enum import Enum
 from pydantic import EmailStr
-from sqlmodel import Column, SQLModel, Field, Relationship
+from sqlmodel import Column, SQLModel, Field, Relationship, select
 from datetime import datetime
 from uuid import uuid4, UUID
 from sqlalchemy.dialects import postgresql
 from sqlalchemy import ARRAY, INTEGER
+from sqlalchemy.ext.asyncio import AsyncSession
+
+
+class ShipmentTag(SQLModel, table=True):
+    __tablename__ = "shipment_tag"
+
+    tag_id: UUID = Field(
+        foreign_key="tag.id",
+        primary_key=True,
+    )
+
+    shipment_id: UUID = Field(
+        foreign_key="shipment.id",
+        primary_key=True,
+    )
+
+
+#######################################
+
+
+class TagName(str, Enum):
+    EXPRESS = "express"
+    STANDARD = "standard"
+    FRAGILE = "fragile"
+    HEAVY = "heavy"
+    INTERNATIONAL = "international"
+    DOMESTIC = "domestic"
+    TEMPERATURE_CONTROLLED = "temperature_controlled"
+    GIFT = "gift"
+    RETURN = "return"
+    DOCUMENTS = "documents"
+
+    async def tag(self, session: AsyncSession):
+        return await session.scalar(select(Tag).where(Tag.name == self.value))
+
+
+class Tag(SQLModel, table=True):
+    __tablename__ = "tag"
+
+    id: UUID = Field(
+        sa_column=Column(
+            postgresql.UUID,
+            default=uuid4,
+            primary_key=True,
+        )
+    )
+
+    name: TagName
+
+    instruction: str
+
+    shipments: list["Shipment"] = Relationship(
+        back_populates="tags",
+        link_model=ShipmentTag,
+        sa_relationship_kwargs={"lazy": "immediate"},
+    )
+
+
+#######################################
 
 
 class ShipmentStatus(str, Enum):
@@ -53,6 +112,16 @@ class Shipment(SQLModel, table=True):
     created_at: datetime = Field(
         sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
     )
+
+    tags: list[Tag] = Relationship(
+        back_populates="shipments",
+        link_model=ShipmentTag,
+        sa_relationship_kwargs={"lazy": "immediate"},
+    )
+
+
+##########################################
+
 
 
 class ShipmentEvent(SQLModel, table=True):
@@ -147,3 +216,40 @@ class Review(SQLModel, table=True):
         back_populates="review",
         sa_relationship_kwargs={"lazy": "selectin"},
     )
+
+
+#########################################
+
+
+
+class Order(SQLModel, table=True):
+    product_id: UUID = Field(foreign_key="product.id", primary_key=True)
+    container_id: UUID = Field(foreign_key="container.id", primary_key=True)
+
+    product: "Product" = Relationship(back_populates="orders")
+    container: "Container" = Relationship(back_populates="orders")
+
+    created_at: datetime
+    quantity: int = Field(default=1)
+
+
+
+
+class Product(SQLModel, table=True):
+    id: UUID = Field(primary_key=True)
+    title: str
+    price: float
+    weight: float
+    description: str
+
+    orders: list["Order"] = Relationship(back_populates="product")
+
+
+
+class Container(SQLModel, table=True):
+    id: UUID = Field(primary_key=True)
+    status: str
+    weight: float
+    destination: str
+
+    orders: list["Order"] = Relationship(back_populates="container")
