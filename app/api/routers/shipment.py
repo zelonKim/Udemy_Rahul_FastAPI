@@ -4,6 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Form, HTTPException, Request, status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from app.api.tag import APITag
 from app.database.models import Shipment, ShipmentStatus, TagName
 from app.api.schemas.shipment import (
     ShipmentCreate,
@@ -21,7 +22,7 @@ from ..schemas.dependencies import (
 from app.config import app_settings
 
 
-router = APIRouter(prefix="/shipment", tags=["Shipment"])
+router = APIRouter(prefix="/shipment", tags=[APITag.SHIPMENT])
 
 
 templates = Jinja2Templates(TEMPLATE_DIR)
@@ -54,7 +55,23 @@ async def get_tracking(request: Request, id: UUID, service: ShipmentServiceDep):
     )
 
 
-@router.post("/", response_model=ShipmentRead)
+@router.post(
+    "/",
+    response_model=ShipmentRead,
+    name="Shipment 추가",
+    description="새로운 Shipment를 만들어 보세요.",
+    status_code=status.HTTP_201_CREATED,
+    responses={
+        status.HTTP_201_CREATED: {
+            "description": "Shipment created",
+            "content": {"application/json": {"example": {"id": "hello"}}},
+        },
+        status.HTTP_406_NOT_ACCEPTABLE: {
+            "description": "Delivery partner not Available",
+            "content": {"application/json": {"example": {"id": "there"}}},
+        },
+    },
+)
 async def create_shipment(
     shipment: ShipmentCreate,
     service: ShipmentServiceDep,
@@ -83,9 +100,6 @@ async def update_shipment(
     return await service.update(id, shipment_update, partner)
 
 
-
-
-
 @router.get("/tagged", response_model=list[ShipmentRead])
 async def get_shipments_with_tag(tag_name: TagName, session: SessionDep):
     tag = await tag_name.tag(session)
@@ -108,9 +122,6 @@ async def remove_tag_from_shipment(
     service: ShipmentServiceDep,
 ):
     return await service.remove_tag(id, tag_name)
-
-
-
 
 
 @router.delete("/cancel")

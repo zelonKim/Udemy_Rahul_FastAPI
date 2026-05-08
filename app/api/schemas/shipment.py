@@ -14,19 +14,18 @@ class ShipmentStatus(str, Enum):
 
 
 class ShipmentBase(BaseModel):
-    content: str
+    content: str = Field(max_length=100)
     weight: float = Field(le=25, gt=0)
-    destination: int
-
-
-
-
+    destination: int = Field(
+        description="location_zipcode",
+        examples=[11001, 11002],
+    )
+    location: int
 
 
 class TagRead(BaseModel):
     name: TagName
     instruction: str
-    
 
 
 class ShipmentRead(ShipmentBase):
@@ -36,11 +35,9 @@ class ShipmentRead(ShipmentBase):
     tags: list[Tag]
 
 
-
-
-
-
 class ShipmentCreate(ShipmentBase):
+    """Shipment Details to Create New Shipment"""
+
     client_contact_email: EmailStr
     client_contact_phone: str | None = Field(default=None)
 

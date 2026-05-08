@@ -1,6 +1,16 @@
 from datetime import datetime
 from time import perf_counter
-from fastapi import BackgroundTasks, FastAPI, HTTPException, Request, Response, status
+from typing import Annotated
+from uuid import UUID, uuid4
+from fastapi import (
+    BackgroundTasks,
+    Depends,
+    FastAPI,
+    HTTPException,
+    Request,
+    Response,
+    status,
+)
 from fastapi.concurrency import asynccontextmanager
 from fastapi.responses import (
     FileResponse,
@@ -10,12 +20,58 @@ from fastapi.responses import (
     RedirectResponse,
 )
 from scalar_fastapi import get_scalar_api_reference
+from app.api.tag import APITag
 from app.core.exceptions import add_exception_handlers
 from app.database.session import create_db_tables
 from app.api.router import main_router
 from app.utils import APP_DIR
 from app.worker.tasks import add_log, send_mail
 from fastapi.middleware.cors import CORSMiddleware
+
+
+# description = """
+# Delivery Management System for sellers and delivery partner
+# ### Seller
+# - Submit shipment effortlessly
+# - Share tracking links with customers
+
+# ### Delivery Agent
+# - Auto accept shipment
+# - Track and update shipment status
+# - Email and SMS notifications
+# """
+
+
+# app = FastAPI(
+#     title="FastShip",
+#     description=description,
+#     docs_url=None,
+#     redoc_url=None,
+#     version="0.1.0",
+#     terms_of_service="https://fastship.com/terms/",
+#     contact={
+#         "name": "FastShip Support",
+#         "url": "https://fastship.com/support",
+#         "email": "ksz1860@naver.com",
+#     },
+#     openapi_tags=[
+#         {
+#             "name": APITag.SHIPMENT,
+#             "description": "Operations related to shipments.",
+#         },
+#         {
+#             "name": APITag.SELLER,
+#             "description": "Operations related to seller.",
+#         },
+#         {
+#             "name": APITag.PARTNER,
+#             "description": "Operations related to delivery partner",
+#         },
+#     ],
+# )
+
+
+####################################
 
 
 @asynccontextmanager
@@ -26,10 +82,24 @@ async def lifespan_handler(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan_handler)
 
+
 app.include_router(main_router)
 
 
+# def get_id():
+#     return uuid4()
+
+
+# @app.get("/")
+# def read_root(id: Annotated[UUID, Depends(get_id)]):
+#     return {"detail": str(id)}
+
+
+
+
+
 ########################################
+
 
 
 add_exception_handlers(app)
@@ -43,19 +113,7 @@ def internal_server_error_handler(request, exception):
     )
 
 
-
-
-
-
-
-
-
 ########################################
-
-
-
-
-
 
 
 @app.middleware("http")
@@ -75,14 +133,11 @@ async def custom_middleware(request: Request, call_next):
     return response
 
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5500"],
     allow_methods=["*"],
 )
-
-
 
 
 ############################################

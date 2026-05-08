@@ -14,10 +14,10 @@ class ShipmentEventService(BaseService):
     def __init__(
         self,
         session,
-        # tasks,
+        tasks,
     ):
         super().__init__(ShipmentEvent, session)
-        # self.notification_service = NotificationService(tasks)
+        self.notification_service = NotificationService(tasks)
 
     async def add(
         self,

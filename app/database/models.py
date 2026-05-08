@@ -123,7 +123,6 @@ class Shipment(SQLModel, table=True):
 ##########################################
 
 
-
 class ShipmentEvent(SQLModel, table=True):
     __tablename__ = "shipment_event"
 
@@ -170,12 +169,25 @@ class Seller(User, table=True):
     )
 
 
+class ServiceableLocation(SQLModel, table=True):
+    __tablename__ = "serviceable_location"
+
+    partner_id: UUID = Field(foreign_key="delivery_partner.id", primary_key=True)
+
+    location_id: int = Field(foreign_key="location.zip_code", primary_key=True)
+
+
 class DeliveryPartner(User, table=True):
     __tablename__ = "delivery_partner"
 
     id: UUID = Field(sa_column=Column(postgresql.UUID, default=uuid4, primary_key=True))
 
-    serviceable_zip_codes: list[int] = Field(sa_column=Column(ARRAY(INTEGER)))
+    serviceable_locations: list["Location"] = Relationship(
+        back_populates="delivery_partners",
+        link_model=ServiceableLocation,
+        sa_relationship_kwargs={"lazy": "selectin"},
+    )
+
     max_handling_capacity: int
 
     shipments: list[Shipment] = Relationship(
@@ -185,6 +197,18 @@ class DeliveryPartner(User, table=True):
 
     created_at: datetime = Field(
         sa_column=Column(postgresql.TIMESTAMP, default=datetime.now)
+    )
+
+
+class Location(SQLModel, table=True):
+    __tablename__ = "location"
+
+    zip_code: int = Field(primary_key=True)
+
+    delivery_partners: list["DeliveryPartner"] = Relationship(
+        back_populates="serviceable_locations",
+        link_model=ServiceableLocation,
+        sa_relationship_kwargs={"lazy": "selectin"},
     )
 
 
@@ -221,7 +245,6 @@ class Review(SQLModel, table=True):
 #########################################
 
 
-
 class Order(SQLModel, table=True):
     product_id: UUID = Field(foreign_key="product.id", primary_key=True)
     container_id: UUID = Field(foreign_key="container.id", primary_key=True)
@@ -231,8 +254,6 @@ class Order(SQLModel, table=True):
 
     created_at: datetime
     quantity: int = Field(default=1)
-
-
 
 
 class Product(SQLModel, table=True):
@@ -245,7 +266,6 @@ class Product(SQLModel, table=True):
     orders: list["Order"] = Relationship(back_populates="product")
 
 
-
 class Container(SQLModel, table=True):
     id: UUID = Field(primary_key=True)
     status: str
@@ -253,3 +273,6 @@ class Container(SQLModel, table=True):
     destination: str
 
     orders: list["Order"] = Relationship(back_populates="container")
+
+
+#########################################

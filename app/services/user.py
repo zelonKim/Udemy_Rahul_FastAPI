@@ -22,11 +22,11 @@ class UserService(BaseService):
         self,
         model: User,
         session: AsyncSession,
-        # tasks: BackgroundTasks,
+        tasks: BackgroundTasks,
     ):
         self.model = model
         self.session = session
-        # self.notification_service = NotificationService(tasks)
+        self.notification_service = NotificationService(tasks)
         self.pw_context = CryptContext(schemes=["argon2"])
 
     def hash_password(self, password: str) -> str:

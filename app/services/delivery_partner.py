@@ -2,7 +2,13 @@ from fastapi import HTTPException, status
 from sqlalchemy import select, any_, func
 from typing import Sequence
 from app.api.schemas.delivery_partner import DeliveryPartnerCreate
-from app.database.models import DeliveryPartner, Shipment, ShipmentEvent, ShipmentStatus
+from app.database.models import (
+    DeliveryPartner,
+    Location,
+    Shipment,
+    ShipmentEvent,
+    ShipmentStatus,
+)
 from app.services.user import UserService
 
 
@@ -10,23 +16,33 @@ class DeliveryPartnerService(UserService):
     def __init__(
         self,
         session,
-        # tasks,
+        tasks,
     ):
         super().__init__(
             DeliveryPartner,
             session,
-            # tasks,
+            tasks,
         )
 
     async def add(self, delivery_partner: DeliveryPartnerCreate):
-        return await self._add_user(delivery_partner.model_dump(), "partner")
+        partner: DeliveryPartner = await self._add_user(
+            delivery_partner.model_dump(exclude={"serviceable_zip_codes"}), "partner"
+        )
+
+        for zip_code in delivery_partner.serviceable_zip_codes:
+            location = await self.session.get(Location, zip_code)
+            partner.serviceable_locations.append(
+                location if location else Location(zip_code)
+            )
+
+        return await self._update(partner)
 
     async def get_partner_by_zipcode(self, zipcode: int) -> Sequence[DeliveryPartner]:
         return (
             await self.session.scalars(
-                select(DeliveryPartner).where(
-                    zipcode == any_(DeliveryPartner.serviceable_zip_codes)
-                )
+                select(DeliveryPartner)
+                .join(DeliveryPartner.serviceable_locations)
+                .where(Location.zip_code == zipcode)
             )
         ).all()
 
